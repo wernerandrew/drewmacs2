@@ -24,6 +24,7 @@
 (add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.mako$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.handlebars$" . web-mode))
 
 ;; javascript
 (require 'js2-mode)
