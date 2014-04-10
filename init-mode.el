@@ -1,6 +1,24 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MAJOR MODES
 
+;; Global
+;; Never, ever use tabs
+(setq-default indent-tabs-mode nil)
+
+;; Text mode
+(add-to-list 'auto-mode-alist '("\\.txt\\'" . (lambda()
+                                                (text-mode)
+                                                (auto-fill-mode)
+                                                (flyspell-mode))))
+
+;; Info mode
+(require 'info nil t)
+
+;; c-mode / c++-mode - prefer 4 spaces
+(setq-default c-basic-offset 4)
+;; Default .h -> c++ mode
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
 ;; web-mode
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
@@ -15,6 +33,7 @@
 
 ;; ruby
 (require 'ruby-mode)
+(setq ruby-indent-level 2)
 (add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
 
