@@ -108,51 +108,44 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 
 ;; JEDI
 ;; This is a bit of a doozy
-(defun guess-best-python-root-for-buffer (buf)
+
+;; Helper to find the best project root
+(defun guess-best-root-for-buffer (buf repo-sentry &optional init-sentry)
   "Guesses that the python root is the less 'deep' of either:
      -- the root directory of the repository, or
      -- the directory before the first directory after the root
-	having an __init__.py file."
-  (interactive)
-  (let ((found-project-root nil)
-	(found-init-py nil)
-	(search-depth 0)
-	(root-depth nil)
-	(max-search-depth 0)
-	(base-directory (file-name-directory (buffer-file-name buf))))
-    (setq max-search-depth (length (split-string base-directory "/")))
+        having an __init__.py file."
 
-    (defun path-at-depth (base depth-val)
-      (if (> depth-val 0)
-	  (concat (path-at-depth base (- depth-val 1)) "../")
-	base))
+  ;; make list of directories from root, removing empty
+  (defun make-dir-list (path)
+    (delq nil (mapcar (lambda (x) (and (not (string= x "")) x))
+                      (split-string path "/"))))
+  ;;
+  (defun dir-list-to-path (dirs)
+    (concat "/" (mapconcat 'identity dirs "/")))
+  ;; a little something to try to find the "best" root directory
+  (defun try-find-best-root (base-dir buffer-dir current)
+    (cond
+     (base-dir ;; traverse until we reach the base
+      (try-find-best-root (cdr base-dir) (cdr buffer-dir)
+                          (append current (list (car buffer-dir)))))
+     (buffer-dir ;; try until we hit the current directory
+      (let* ((next-dir (append current (list (car buffer-dir))))
+             (sentry-file (concat (dir-list-to-path next-dir) "/" init-sentry)))
+        (if (file-exists-p sentry-file)
+            (dir-list-to-path current)
+          (try-find-best-root nil (cdr buffer-dir) next-dir))))
+     (t nil)))
 
-    (defun exists-at-current-depth (fname)
-      (file-exists-p (concat (path-at-depth base-directory search-depth) fname)))
-
-    ;; head down to the root of the git repo
-    (while (and (< search-depth max-search-depth) (not found-project-root))
-      (if (exists-at-current-depth ".git") ; add others?
-	  (setq found-project-root t)
-	(setq search-depth (+ search-depth 1))))
-    (setq root-depth search-depth)
-    ;; heading back, pick the directory _before_ the first
-    ;; directory having an __init__.py file
-    (while (and (>= search-depth 0) (not found-init-py))
-      (if (exists-at-current-depth "__init__.py")
-	  (progn
-	    ;; if it's not the root, then go back a directory
-	    (if (not (eq search-depth root-depth))
-		(setq search-depth (+ search-depth 1)))
-	    (setq found-init-py t))
-	(setq search-depth (- search-depth 1))))
-    ;; return the full absolute path at the search depth
-    (path-at-depth base-directory search-depth)
-    )
-  )
+  (let* ((buffer-dir (expand-file-name (file-name-directory (buffer-file-name buf))))
+         (project-root (expand-file-name (vc-find-root buffer-dir repo-sentry))))
+    (if init-sentry
+        (try-find-best-root (make-dir-list project-root) (make-dir-list buffer-dir) '())
+      project-root))) ;; default to vc root if sentry not given
 
 (defun setup-jedi-extra-args ()
-  (let ((project-base (guess-best-python-root-for-buffer (current-buffer))))
+  (let ((project-base (guess-best-root-for-buffer
+                       (current-buffer) ".git" "__init__.py")))
     (make-local-variable 'jedi:server-args)
     (when project-base (set 'jedi:server-args (list "--sys-path" project-base)))))
 
