@@ -122,7 +122,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
                       (split-string path "/"))))
   ;;
   (defun dir-list-to-path (dirs)
-    (concat "/" (mapconcat 'identity dirs "/")))
+    (mapconcat 'identity (cons "" dirs) "/"))
   ;; a little something to try to find the "best" root directory
   (defun try-find-best-root (base-dir buffer-dir current)
     (cond
