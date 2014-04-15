@@ -1,47 +1,5 @@
 ;; Non mode-specific keyboard mapping goes here
 
-
-;; We will bind these functions to keys
-(defun select-next-window ()
-  "Switch to the next window"
-  (interactive)
-  (select-window (next-window)))
-
-(defun select-previous-window ()
-  "Switch to the previous window"
-  (interactive)
-  (select-window (previous-window)))
-
-(defun ff/scroll-down ()
-  "Scroll the buffer down one line and keep the cursor at the same location."
-  (interactive)
-  (condition-case nil
-      (scroll-down 1)
-    (error nil)))
-
-(defun ff/scroll-up ()
-  "Scroll the buffer up one line and keep the cursor at the same location."
-  (interactive)
-  (condition-case nil
-      (scroll-up 1)
-    (error nil)))
-
-(defun ff/comment-and-go-down (arg)
-  "Comments and goes down ARG lines."
-  (interactive "p")
-  (condition-case nil
-      (comment-region (point-at-bol) (point-at-eol)) (error nil))
-  (next-line 1)
-  (if (> arg 1) (ff/comment-and-go-down (1- arg))))
-
-(defun ff/uncomment-and-go-up (arg)
-  "Uncomments and goes up ARG lines."
-  (interactive "p")
-  (condition-case nil
-      (uncomment-region (point-at-bol) (point-at-eol)) (error nil))
-  (next-line -1)
-  (if (> arg 1) (ff/uncomment-and-go-up (1- arg))))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Key mapping
 
