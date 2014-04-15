@@ -5,6 +5,7 @@
   (concat (file-name-directory (or load-file-name buffer-file-name)) filename))
 
 (load (relative-to-full-path "custom-functions.el"))
+(load (relative-to-full-path "general-config.el"))
 (load (relative-to-full-path "init-packages.el"))
 (load (relative-to-full-path "init-ui.el"))
 (load (relative-to-full-path "init-keys.el"))

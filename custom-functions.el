@@ -1,18 +1,5 @@
 ;; Here we define functions used elsewhere in the config
 
-;; Utility function to help find the ag executable.
-;; Needed for OS X environments
-(defun aw/set-exec-path-from-shell-PATH ()
-  "Set up Emacs' `exec-path' and PATH environment variable to match that used by the user's shell.
-
-This is particularly useful under Mac OSX, where GUI apps are not started from a shell."
-  (interactive)
-  (let ((path-from-shell (replace-regexp-in-string
-			  "[ \t\n]*$" ""
-			  (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
-    (setenv "PATH" path-from-shell)
-    (setq exec-path (split-string path-from-shell path-separator))))
-
 ;; Helper to find the best project root
 (defun aw/guess-best-root-for-buffer (buf repo-sentry &optional init-sentry)
   "Guesses that the python root is the less 'deep' of either:
@@ -24,7 +11,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
   (defun make-dir-list (path)
     (delq nil (mapcar (lambda (x) (and (not (string= x "")) x))
                       (split-string path "/"))))
-  ;;
+  ;; convert a list of directories to a path starting at "/"
   (defun dir-list-to-path (dirs)
     (mapconcat 'identity (cons "" dirs) "/"))
   ;; a little something to try to find the "best" root directory
@@ -33,12 +20,14 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
      (base-dir ;; traverse until we reach the base
       (try-find-best-root (cdr base-dir) (cdr buffer-dir)
                           (append current (list (car buffer-dir)))))
+
      (buffer-dir ;; try until we hit the current directory
       (let* ((next-dir (append current (list (car buffer-dir))))
              (sentry-file (concat (dir-list-to-path next-dir) "/" init-sentry)))
         (if (file-exists-p sentry-file)
             (dir-list-to-path current)
           (try-find-best-root nil (cdr buffer-dir) next-dir))))
+
      (t nil)))
 
   (let* ((buffer-dir (expand-file-name (file-name-directory (buffer-file-name buf))))
