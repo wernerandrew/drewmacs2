@@ -7,6 +7,15 @@
 (when (boundp 'mac-command-modifier)
   (setq mac-command-modifier 'meta))
 
+;; Window splitting
+;; Rebind these since rarely used
+(global-set-key (kbd "M-0") 'delete-window)
+(global-set-key (kbd "M-1") 'delete-other-windows)
+(global-set-key (kbd "M-2") 'split-window-below)
+(global-set-key (kbd "M-3") 'split-window-right)
+(global-set-key (kbd "M-+") 'balance-windows)
+
+
 ;; Navigation
 
 (global-set-key (kbd "M-}") 'select-next-window)
