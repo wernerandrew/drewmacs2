@@ -121,3 +121,9 @@
 ;; Shell
 (require 'tramp)
 (ansi-color-for-comint-mode-on)
+
+;; Org-mode
+(require 'org)
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c a") 'org-agenda)
+(setq org-log-done t)
