@@ -31,10 +31,13 @@
      (t nil)))
 
   (let* ((buffer-dir (expand-file-name (file-name-directory (buffer-file-name buf))))
-         (project-root (expand-file-name (vc-find-root buffer-dir repo-sentry))))
-    (if init-sentry
-        (try-find-best-root (make-dir-list project-root) (make-dir-list buffer-dir) '())
-      project-root))) ;; default to vc root if sentry not given
+         (vc-root-dir (vc-find-root buffer-dir repo-sentry)))
+    (if (and init-sentry vc-root-dir)
+        (try-find-best-root
+         (make-dir-list (expand-file-name vc-root-dir))
+         (make-dir-list buffer-dir)
+         '())
+      vc-root-dir))) ;; default to vc root if sentry not given
 
 ;; Various UI Helpers
 
