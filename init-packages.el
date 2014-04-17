@@ -50,7 +50,7 @@
     (color-theme-hober)
 
     (require 'magit)
-    (global-set-key (kbd "C-c g") 'magit-status)
-
+    (global-set-key (kbd "C-c g s") 'magit-status)
+    (global-set-key (kbd "C-c g b") 'magit-blame-mode)
     ;; Mode specific init
     (load local-mode-init-file-path)))
