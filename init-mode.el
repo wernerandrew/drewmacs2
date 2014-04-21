@@ -115,8 +115,10 @@
 ;; jedi-specific keybindings
 (add-hook 'python-mode-hook
 	  '(lambda ()
+             (local-set-key (kbd "M-?") 'jedi:show-doc)
 	     (local-set-key (kbd "M-.") 'jedi:goto-definition)
-	     (local-set-key (kbd "M-,") 'jedi:get-in-function-call)))
+	     (local-set-key (kbd "M-,") 'jedi:goto-definition-pop-marker)
+             (local-set-key (kbd "M-/") 'jedi:get-in-function-call)))
 
 ;; Shell
 (require 'tramp)
