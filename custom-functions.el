@@ -82,4 +82,10 @@
   (next-line -1)
   (if (> arg 1) (ff/uncomment-and-go-up (1- arg))))
 
-;; Shell helpers - particularly SSH
+;; Shell helpers
+(defun create-shell (shell-name)
+  (interactive "sEnter shell name: ")
+  (let ((new-shell (concat "*" shell-name "*")))
+    (if (not (get-buffer new-shell))
+        (shell (switch-to-buffer new-shell))
+      (error (format "Buffer %s already exists" new-shell)))))
