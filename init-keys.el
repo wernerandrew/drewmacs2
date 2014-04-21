@@ -38,6 +38,9 @@
 (define-key global-map [(meta down)] 'ff/scroll-up)
 (define-key global-map [(shift down)] 'ff/comment-and-go-down)
 (define-key global-map [(shift up)] 'ff/uncomment-and-go-up)
+;; Hack to get around <select> mapping
+(if (null window-system)
+    (define-key global-map [(select)] 'ff/uncomment-and-go-up))
 
 ;; Window resizing
 
