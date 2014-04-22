@@ -42,6 +42,7 @@
 (setq ruby-indent-level 2)
 (add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Vagrantfile$" . ruby-mode))
 
 ;; cython
 (require 'cython-mode)
