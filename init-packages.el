@@ -16,6 +16,7 @@
 
 (defvar local-packages
   '(color-theme
+    less-css-mode
     web-mode
     js2-mode
     cython-mode
