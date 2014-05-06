@@ -85,8 +85,8 @@
 ;; Autocomplete
 (require 'auto-complete-config)
 (ac-config-default)
-;; Show menu at same time as autocomplete starts
-(setq ac-auto-show-menu ac-delay)
+;; Show menu more quickly after autocomplete starts
+(setq ac-auto-show-menu (* ac-delay 2))
 
 ;; Python mode
 ;; Don't accidentally make python buffer
