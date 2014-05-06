@@ -26,6 +26,7 @@
     projectile
     epc
     jedi
+    ac-js2
     ag
     magit))
 

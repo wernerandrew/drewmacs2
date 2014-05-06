@@ -36,6 +36,8 @@
  '(lambda ()
     ;; Don't redefine M-j - we use it to navigate
     (define-key js2-mode-map (kbd "M-j") nil)))
+;; Extra autocompletion fun
+(add-hook 'js2-mode-hook 'ac2-js2-mode)
 
 ;; ruby
 (require 'ruby-mode)
