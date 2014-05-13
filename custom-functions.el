@@ -89,3 +89,24 @@
     (if (not (get-buffer new-shell))
         (shell (switch-to-buffer new-shell))
       (error (format "Buffer %s already exists" new-shell)))))
+
+;; Formatting helpers
+(defvar aw/auto-align-list '("=")
+  "List of regex to try for vertical alignment in order of priority.")
+
+(defun aw/align-vertical-region ()
+  (interactive)
+  (let ((start (region-beginning))
+        (end (region-end))
+        (base "\\(\\s-*\\)")) ;; this turns out to be important
+    (defun try-align (choices)
+      (let ((to-match (car choices)))
+        (if choices
+            (progn
+              (goto-char start)
+              (if (search-forward-regexp to-match)
+                  (align-regexp start end (concat base to-match) 1 1 nil)
+                (try-align (cdr choices))))
+          (error "No alignment possibilities in region"))))
+    (save-excursion
+      (try-align aw/auto-align-list))))

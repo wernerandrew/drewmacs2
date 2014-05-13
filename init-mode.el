@@ -28,6 +28,7 @@
 
 ;; javascript
 (require 'js2-mode)
+;; (require 'ac-js2)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (setq js2-cleanup-whitespace t ;; clear whitespace on save
       js2-mirror-mode nil)     ;; but do NOT match parens.
@@ -37,7 +38,7 @@
     ;; Don't redefine M-j - we use it to navigate
     (define-key js2-mode-map (kbd "M-j") nil)))
 ;; Extra autocompletion fun
-(add-hook 'js2-mode-hook 'ac2-js2-mode)
+;; (add-hook 'js2-mode-hook 'ac-js2-mode)
 
 ;; ruby
 (require 'ruby-mode)
@@ -51,7 +52,11 @@
 
 ;; haskell
 (require 'haskell-mode)
-(add-hook 'haskell-mode-hook (lambda () (haskell-indent-mode)))
+(defun aw/haskell-mode-setup ()
+  (haskell-indent-mode)
+  (make-local-variable 'aw/auto-align-list)
+  (setq aw/auto-align-list '("=" "->" "|")))
+(add-hook 'haskell-mode-hook 'aw/haskell-mode-setup)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UTILITY CONFIG

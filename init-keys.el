@@ -15,7 +15,6 @@
 (global-set-key (kbd "M-3") 'split-window-right)
 (global-set-key (kbd "M-+") 'balance-windows)
 
-
 ;; Navigation
 
 (global-set-key (kbd "M-}") 'select-next-window)
@@ -51,6 +50,7 @@
 
 ;; Commands
 (global-set-key (kbd "M-r") 'replace-string)
+(global-set-key (kbd "C-|") 'aw/align-vertical-region)
 ;; Transposing words is evil
 (global-set-key (kbd "M-t") 'replace-regexp)
 ;; Don't accidentally suspend
