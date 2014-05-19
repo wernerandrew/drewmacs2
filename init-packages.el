@@ -28,7 +28,8 @@
     jedi
     ac-js2
     ag
-    magit))
+    magit
+    helm))
 
 (defun uninstalled-packages (packages)
   (delq nil
