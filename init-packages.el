@@ -22,6 +22,7 @@
     cython-mode
     enh-ruby-mode
     haskell-mode
+    markdown-mode
     auto-complete
     projectile
     epc
@@ -56,4 +57,14 @@
     (global-set-key (kbd "C-c g s") 'magit-status)
     (global-set-key (kbd "C-c g b") 'magit-blame-mode)
     ;; Mode specific init
-    (load local-mode-init-file-path)))
+    (load local-mode-init-file-path)
+
+    ;; local directory
+    (let ((local-elisp (file-name-as-directory
+                        (expand-file-name "~/elisp-local/"))))
+      (when (file-directory-p local-elisp)
+        (let ((subdirs (directory-files local-elisp)))
+          (dolist (s subdirs)
+            (when (not (string-match-p "^\\." s))
+              (add-to-list 'load-path (concat local-elisp s)))))))
+    (require 'datadog)))
