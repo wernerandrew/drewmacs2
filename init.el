@@ -1,8 +1,8 @@
 ;; emacs init file for drew, with thanks to gleit.
 
 (set-face-attribute 'default nil
-                    :family "Inconsolata"
-                    :height 145)
+                    :family "Menlo"
+                    :height 120)
 
 ;; Helper to load files based on relative paths
 (defun relative-to-full-path (filename)
