@@ -58,6 +58,11 @@
   (setq aw/auto-align-list '("=" "->" "|")))
 (add-hook 'haskell-mode-hook 'aw/haskell-mode-setup)
 
+;; markdown
+(require 'markdown-mode)
+(add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UTILITY CONFIG
 
