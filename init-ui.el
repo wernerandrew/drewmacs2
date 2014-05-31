@@ -56,8 +56,6 @@
  compilation-scroll-output t
  ;; blink the screen instead of beeping
  ;; visible-bell t
- ;; take the CR when killing a line
- kill-whole-line t
  ;; Show all lines, even if the window is not as large as the frame
  truncate-partial-width-windows nil
  ;; Do not keep tracks of the autosaved files

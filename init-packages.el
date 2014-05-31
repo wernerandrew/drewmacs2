@@ -67,4 +67,6 @@
           (dolist (s subdirs)
             (when (not (string-match-p "^\\." s))
               (add-to-list 'load-path (concat local-elisp s)))))))
-    (require 'datadog)))
+    ;; Datadog
+    (require 'datadog)
+    (global-set-key (kbd "C-c d d") 'datadog)))
