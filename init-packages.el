@@ -30,6 +30,7 @@
     ac-js2
     ag
     magit
+    multiple-cursors
     helm))
 
 (defun uninstalled-packages (packages)
@@ -69,4 +70,11 @@
               (add-to-list 'load-path (concat local-elisp s)))))))
     ;; Datadog
     (require 'datadog)
-    (global-set-key (kbd "C-c d d") 'datadog)))
+    (global-set-key (kbd "C-c d d") 'datadog)
+
+    ;; multiple-cursors
+    (require 'multiple-cursors)
+    (global-set-key (kbd "C-.") 'mc/mark-next-like-this)
+    (global-set-key (kbd "C-,") 'mc/mark-previous-like-this)
+    (global-set-key (kbd "C-c C-,") 'mc/mark-all-like-this)))
+
