@@ -146,4 +146,8 @@
 (require 'org)
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c a") 'org-agenda)
+;; little hack to avoid lockfiles
+(setq org-agenda-files
+      (mapcar 'expand-file-name
+              (file-expand-wildcards "~/Dropbox/org/[A-Za-z]*.org")))
 (setq org-log-done t)
