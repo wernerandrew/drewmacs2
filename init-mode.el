@@ -25,6 +25,9 @@
 (add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.mako$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.handlebars$" . web-mode))
+;; default to django templating for all HTML files
+(add-to-list 'web-mode-engine-file-regexps
+             '("django" . "\\.html\\'"))
 
 ;; javascript
 (require 'js2-mode)
