@@ -17,7 +17,8 @@
 (defvar local-packages
   '(color-theme
     sublime-themes
-    color-theme-solarized
+    solarized-theme
+    zenburn-theme
     less-css-mode
     web-mode
     js2-mode
@@ -53,9 +54,12 @@
 (add-hook
  'after-init-hook
  '(lambda ()
-    (require 'color-theme)
+    ;; Keep me for now in case I want to revert
+    ;; (require 'color-theme)
     ;; (color-theme-initialize)
     ;; (color-theme-hober)
+    (setq solarized-high-contrast-mode-line t)
+    (setq x-underline-at-descent-line t)
     (load-theme 'solarized-dark t)
 
     (require 'magit)
