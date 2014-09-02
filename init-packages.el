@@ -17,6 +17,7 @@
 (defvar local-packages
   '(color-theme
     sublime-themes
+    color-theme-solarized
     less-css-mode
     web-mode
     js2-mode
@@ -53,9 +54,9 @@
  'after-init-hook
  '(lambda ()
     (require 'color-theme)
-    (color-theme-initialize)
-    (color-theme-hober)
-    ;; (load-theme 'spolsky t)
+    ;; (color-theme-initialize)
+    ;; (color-theme-hober)
+    (load-theme 'solarized-dark t)
 
     (require 'magit)
     (global-set-key (kbd "C-c g s") 'magit-status)
