@@ -16,6 +16,7 @@
 
 (defvar local-packages
   '(color-theme
+    sublime-themes
     less-css-mode
     web-mode
     js2-mode
@@ -23,6 +24,7 @@
     enh-ruby-mode
     haskell-mode
     markdown-mode
+    go-mode
     auto-complete
     projectile
     epc
@@ -53,6 +55,7 @@
     (require 'color-theme)
     (color-theme-initialize)
     (color-theme-hober)
+    ;; (load-theme 'spolsky t)
 
     (require 'magit)
     (global-set-key (kbd "C-c g s") 'magit-status)

@@ -27,7 +27,9 @@
 (add-to-list 'auto-mode-alist '("\\.handlebars$" . web-mode))
 ;; default to django templating for all HTML files
 (add-to-list 'web-mode-engine-file-regexps
-             '("django" . "\\.html\\'"))
+             '("django" . "\\.html\\."))
+(setq web-mode-engines-alist
+      '(("ctemplate". "\\.handlebars\\.")))
 
 ;; javascript
 (require 'js2-mode)
