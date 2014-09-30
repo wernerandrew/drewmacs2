@@ -140,6 +140,12 @@
 	     (local-set-key (kbd "M-,") 'jedi:goto-definition-pop-marker)
              (local-set-key (kbd "M-/") 'jedi:get-in-function-call)))
 
+;; Go
+(require 'go-autocomplete)
+(add-hook 'go-mode-hook
+          '(lambda ()
+             (local-set-key (kbd "M-?") 'godoc-at-point)))
+
 ;; Shell
 (require 'tramp)
 (ansi-color-for-comint-mode-on)

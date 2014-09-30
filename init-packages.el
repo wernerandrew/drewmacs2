@@ -32,6 +32,7 @@
     epc
     jedi
     ac-js2
+    go-autocomplete
     ag
     magit
     multiple-cursors
@@ -58,7 +59,6 @@
     ;; (require 'color-theme)
     ;; (color-theme-initialize)
     ;; (color-theme-hober)
-    (setq solarized-high-contrast-mode-line t)
     (setq solarized-use-variable-pitch nil)
     (setq x-underline-at-descent-line t)
     (load-theme 'solarized-dark t)
