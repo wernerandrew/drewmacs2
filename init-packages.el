@@ -33,6 +33,7 @@
     jedi
     ac-js2
     go-autocomplete
+    go-eldoc
     ag
     magit
     multiple-cursors
@@ -52,6 +53,10 @@
 ;; Init packages after load
 (defvar local-mode-init-file-path
   (relative-to-full-path "init-mode.el"))
+
+;; For stuff outside MELPA that we want to live in VC
+(add-to-list 'load-path (relative-to-full-path "local-packages"))
+
 (add-hook
  'after-init-hook
  '(lambda ()

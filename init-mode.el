@@ -142,8 +142,18 @@
 
 ;; Go
 (require 'go-autocomplete)
+(require 'go-eldoc)
+
+;; this is annoying, but shrug.
+(load "oracle.el")
+(require 'go-oracle)
 (add-hook 'go-mode-hook
           '(lambda ()
+             (go-eldoc-setup)
+             (go-oracle-mode)
+             (add-hook 'before-save-hook 'gofmt-before-save)
+             (local-set-key (kbd "M-.") 'godef-jump)
+             (local-set-key (kbd "M-,") 'pop-tag-mark)
              (local-set-key (kbd "M-?") 'godoc-at-point)))
 
 ;; Shell
