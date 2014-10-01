@@ -99,6 +99,7 @@ result."
   (if (string-equal "" go-oracle-scope)
       (go-oracle-set-scope))
   (let* ((filename (file-truename buffer-file-name))
+         (buffer-go-oracle-scope go-oracle-scope)
          (posflag (if (use-region-p)
                       (format "-pos=%s:#%d,#%d"
                               filename
@@ -116,7 +117,7 @@ result."
       (erase-buffer)
       (insert "Go Oracle\n")
       (let ((args (append (list go-oracle-command nil t nil posflag mode)
-                          (split-string go-oracle-scope " " t))))
+                          (split-string buffer-go-oracle-scope " " t))))
         ;; Log the command to *Messages*, for debugging.
         (message "Command: %s:" args)
         (message nil) ; clears/shrinks minibuffer

@@ -39,6 +39,17 @@
          '())
       vc-root-dir))) ;; default to vc root if sentry not given
 
+;; Helper to turn a file root into a go scope
+(defun aw/go-scope-from-buffer (buf &optional repo-sentry)
+  (let* ((repo-sentry (or repo-sentry ".git"))
+         (basedir (expand-file-name
+                   (aw/guess-best-root-for-buffer buf repo-sentry)))
+         (source-basedir (concat (getenv "GOPATH") "/src/")))
+    (when basedir
+      (replace-regexp-in-string
+       "/$" ""
+       (replace-regexp-in-string (concat "^" source-basedir) "" basedir)))))
+
 ;; Various UI Helpers
 
 ;; We will bind these functions to keys

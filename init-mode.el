@@ -147,11 +147,22 @@
 ;; this is annoying, but shrug.
 (load "oracle.el")
 (require 'go-oracle)
+(setq go-oracle-command (executable-find "oracle"))
+
 (add-hook 'go-mode-hook
           '(lambda ()
+             ;; eldoc stuff
              (go-eldoc-setup)
+
+             ;; oracle, which is fussy
              (go-oracle-mode)
+             (make-local-variable 'go-oracle-scope)
+             (setq go-oracle-scope (aw/go-scope-from-buffer (current-buffer)))
+
+             ;; gofmt
              (add-hook 'before-save-hook 'gofmt-before-save)
+
+             ;; keys
              (local-set-key (kbd "M-.") 'godef-jump)
              (local-set-key (kbd "M-,") 'pop-tag-mark)
              (local-set-key (kbd "M-?") 'godoc-at-point)))
