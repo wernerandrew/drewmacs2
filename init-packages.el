@@ -60,10 +60,6 @@
 (add-hook
  'after-init-hook
  '(lambda ()
-    ;; Keep me for now in case I want to revert
-    ;; (require 'color-theme)
-    ;; (color-theme-initialize)
-    ;; (color-theme-hober)
     (setq solarized-use-variable-pitch nil)
     (setq x-underline-at-descent-line t)
     (load-theme 'solarized-dark t)

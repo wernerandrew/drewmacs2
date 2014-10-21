@@ -180,3 +180,8 @@
       (mapcar 'expand-file-name
               (file-expand-wildcards "~/Dropbox/org/[A-Za-z]*.org")))
 (setq org-log-done t)
+
+;; EWW
+(add-hook 'eww-mode-hook
+          '(lambda ()
+             (setq show-trailing-whitespace nil)))
