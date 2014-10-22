@@ -36,11 +36,8 @@
 (setq show-paren-delay 0)
 (show-paren-mode t)
 
-;; Activate the dynamic completion of buffer names
-(iswitchb-mode 1)
-
 ;; Activate the dynamic completion in the mini-buffer
-(icomplete-mode 1)
+(ido-mode 1)
 
 ;; Activate a number of variables
 (setq
