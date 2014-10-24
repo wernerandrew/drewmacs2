@@ -37,7 +37,8 @@
     ag
     magit
     multiple-cursors
-    helm))
+    helm
+    twittering-mode))
 
 (defun uninstalled-packages (packages)
   (delq nil
