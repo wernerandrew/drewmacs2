@@ -15,11 +15,11 @@
       (my-init-packages rest))))
 
 (defvar local-packages
-  '(color-theme
+  '(color-theme ;; themes
     sublime-themes
     solarized-theme
     zenburn-theme
-    less-css-mode
+    less-css-mode ;; programming modes
     web-mode
     js2-mode
     cython-mode
@@ -27,7 +27,8 @@
     haskell-mode
     markdown-mode
     go-mode
-    auto-complete
+    yaml-mode
+    auto-complete ;; misc productivity
     projectile
     epc
     jedi
