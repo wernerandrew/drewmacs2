@@ -186,7 +186,8 @@
           '(lambda ()
              (setq show-trailing-whitespace nil)))
 
-;; Twitter
+;; Twittering
 (require 'twittering-mode)
 (add-hook 'twittering-mode-hook
-          (lambda () (setq show-trailing-whitespace nil)))
+          (lambda ()
+            (setq show-trailing-whitespace nil)))

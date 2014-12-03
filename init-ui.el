@@ -65,10 +65,11 @@
  ;; are set
  enable-local-variables :all
 
- ;; The backups
+ ;; The backups / auto-save files
  temporary-file-directory "/tmp/"
  vc-make-backup-files t
  backup-directory-alist '((".*" . "~/archives/emacs.backups/"))
+ auto-save-file-name-transforms '((".*" "~/archives/emacs.backups/" t))
  version-control t ;; Use backup files with numbers
  kept-new-versions 10
  kept-old-versions 2
