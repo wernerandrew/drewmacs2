@@ -39,7 +39,8 @@
     magit
     multiple-cursors
     helm
-    twittering-mode))
+    twittering-mode
+    hackernews))
 
 (defun uninstalled-packages (packages)
   (delq nil

@@ -191,3 +191,6 @@
 (add-hook 'twittering-mode-hook
           (lambda ()
             (setq show-trailing-whitespace nil)))
+
+;; Hacker News
+(require 'hackernews)
