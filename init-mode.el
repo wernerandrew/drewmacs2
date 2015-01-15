@@ -31,6 +31,11 @@
 (setq web-mode-engines-alist
       '(("ctemplate". "\\.handlebars\\.")))
 
+;; pyxl-mode
+(load "pyxl-mode.el")
+(require 'pyxl-mode)
+(add-to-list 'auto-mode-alist '("\\.py$" . pyxl-mode))
+
 ;; javascript
 (require 'js2-mode)
 ;; (require 'ac-js2)
