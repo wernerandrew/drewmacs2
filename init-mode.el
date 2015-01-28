@@ -49,13 +49,21 @@
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (setq js2-cleanup-whitespace t ;; clear whitespace on save
       js2-mirror-mode nil)     ;; but do NOT match parens.
-(add-hook
- 'js2-mode-hook
- '(lambda ()
-    ;; Don't redefine M-j - we use it to navigate
-    (define-key js2-mode-map (kbd "M-j") nil)))
+(add-hook 'js2-mode-hook
+          '(lambda ()
+             ;; Don't redefine M-j - we use it to navigate
+             (define-key js2-mode-map (kbd "M-j") nil)))
 ;; Extra autocompletion fun
 ;; (add-hook 'js2-mode-hook 'ac-js2-mode)
+
+;; typescript
+(require 'typescript)
+(setq typescript-indent-level 2)
+(add-to-list 'auto-mode-alist '("\\.ts$" . typescript-mode))
+
+(require 'tss)
+(setq tss-popup-help-key "M-?")
+(setq tss-jump-to-definition-key "C-.")
 
 ;; ruby
 (require 'ruby-mode)
