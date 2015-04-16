@@ -19,3 +19,9 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (aw/set-env-from-shell "GOPATH")
 (aw/set-env-from-shell "GOOS")
 (aw/set-env-from-shell "GOARCH")
+
+;; deal with certain tramp errors with an overly-long temp directory
+(let ((tmpdir "/tmp/emacs"))
+  (unless (file-directory-p "/tmp/emacs")
+    (mkdir tmpdir))
+  (setenv "TMPDIR" tmpdir))

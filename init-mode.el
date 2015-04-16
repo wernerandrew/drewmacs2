@@ -23,6 +23,7 @@
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.ejs$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.mako$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.handlebars$" . web-mode))
 ;; default to django templating for all HTML files
@@ -164,20 +165,10 @@
 (require 'go-autocomplete)
 (require 'go-eldoc)
 
-;; this is annoying, but shrug.
-(load "oracle.el")
-(require 'go-oracle)
-(setq go-oracle-command (executable-find "oracle"))
-
 (add-hook 'go-mode-hook
           '(lambda ()
              ;; eldoc stuff
              (go-eldoc-setup)
-
-             ;; oracle, which is fussy
-             (go-oracle-mode)
-             (make-local-variable 'go-oracle-scope)
-             (setq go-oracle-scope (aw/go-scope-from-buffer (current-buffer)))
 
              ;; gofmt
              (add-hook 'before-save-hook 'gofmt-before-save)

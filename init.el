@@ -6,7 +6,7 @@
 (when (member "Menlo" (font-family-list))
   (set-face-attribute 'default nil
                       :family "Menlo"
-                      :height 120))
+                      :height 140))
 
 ;; Helper to load files based on relative paths
 (defun relative-to-full-path (filename)

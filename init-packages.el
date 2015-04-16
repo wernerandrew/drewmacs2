@@ -23,6 +23,7 @@
     web-mode
     js2-mode
     coffee-mode
+    tss
     cython-mode
     enh-ruby-mode
     haskell-mode
