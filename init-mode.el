@@ -27,9 +27,16 @@
 (add-to-list 'auto-mode-alist '("\\.handlebars$" . web-mode))
 ;; default to django templating for all HTML files
 (add-to-list 'web-mode-engine-file-regexps
-             '("django" . "\\.html\\."))
+             '("django" . "\\.html$"))
 (setq web-mode-engines-alist
-      '(("ctemplate". "\\.handlebars\\.")))
+      '(("ctemplate". "\\.handlebars$")))
+;; for react
+(add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
+(defadvice web-mode-highlight-part (around tweak-jsx activate)
+  (if (equal web-mode-content-type "jsx")
+      (let ((web-mode-enable-part-face nil))
+        ad-do-it)
+    ad-do-it))
 
 ;; pyxl-mode
 (load "pyxl-mode.el")

@@ -1,5 +1,8 @@
 ;; emacs init file for drew, with thanks to gleit.
 
+;; for emacsclient support
+(server-start)
+
 (when (member "Menlo" (font-family-list))
   (set-face-attribute 'default nil
                       :family "Menlo"

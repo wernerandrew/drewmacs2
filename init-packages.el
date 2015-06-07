@@ -27,6 +27,7 @@
     haskell-mode
     markdown-mode
     go-mode
+    puppet-mode
     yaml-mode
     auto-complete ;; misc productivity
     projectile
@@ -70,6 +71,9 @@
     (require 'magit)
     (global-set-key (kbd "C-c g s") 'magit-status)
     (global-set-key (kbd "C-c g b") 'magit-blame-mode)
+    ;; my little github helper, here for thematic consistency
+    (global-set-key (kbd "C-c g h") 'aw/get-github-link)
+
     ;; Mode specific init
     (load local-mode-init-file-path)
 

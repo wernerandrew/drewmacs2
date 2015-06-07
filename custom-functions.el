@@ -121,3 +121,42 @@
           (error "No alignment possibilities in region"))))
     (save-excursion
       (try-align aw/auto-align-list))))
+
+;; fun auto-github link
+;; for Tony
+;; maybe expand to others?
+;; prefix with C-u to also open the thing
+(defun aw/get-github-link ()
+  (interactive)
+  ;; this will help us
+  (defun strip-regexp-multi (regexp-list str)
+    (if regexp-list
+        (strip-regexp-multi (cdr regexp-list)
+                            (replace-regexp-in-string (car regexp-list) "" str))
+      str))
+  (defun first-line (str)
+    (car (split-string str "\n")))
+
+  ;; note that we need expand-file-name here
+  (let* ((fname (expand-file-name buffer-file-name (current-buffer)))
+         (gitroot (expand-file-name (vc-find-root fname ".git")))
+         (relpath (replace-regexp-in-string (concat "^" gitroot) "" fname))
+         (remote (first-line
+                  (shell-command-to-string
+                   (concat "cd " gitroot " && git remote -v | "
+                           "grep ^origin | awk '{ print $2 }'"))))
+         (branch (first-line
+                  (shell-command-to-string
+                   (concat "cd " gitroot " && git rev-parse --abbrev-ref HEAD")))))
+
+    (let ((src-link (concat "https://github.com/"
+                            (strip-regexp-multi '("^.*github.com[/:]*" "\\.git$") remote)
+                            "/blob/" branch "/" relpath
+                            (if (region-active-p)
+                                (format "#L%d-L%d"
+                                        (line-number-at-pos (region-beginning))
+                                        (line-number-at-pos (region-end)))
+                              (format "#L%d" (line-number-at-pos (point)))))))
+      (kill-new src-link)
+      (when current-prefix-arg
+          (shell-command (concat "open " src-link))))))
