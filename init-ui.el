@@ -9,6 +9,9 @@
 (defun track-mouse (e))
 (setq mouse-sel-mode t)
 
+;; No menu bar
+(menu-bar-mode -1)
+
 ;; No Toolbar
 (if window-system (tool-bar-mode -1))
 

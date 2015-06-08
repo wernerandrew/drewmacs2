@@ -38,12 +38,16 @@
     ac-js2
     go-autocomplete
     go-eldoc
+    emacs-eclim
     ag
     magit
     multiple-cursors
     helm
     twittering-mode
     hackernews))
+
+;; suppress magit startup warning
+(setq magit-last-seen-setup-instructions "1.4.0")
 
 (defun uninstalled-packages (packages)
   (delq nil
@@ -88,8 +92,8 @@
             (when (not (string-match-p "^\\." s))
               (add-to-list 'load-path (concat local-elisp s)))))))
     ;; Datadog
-    (require 'datadog)
-    (global-set-key (kbd "C-c d d") 'datadog)
+    ;; (require 'datadog)
+    ;; (global-set-key (kbd "C-c d d") 'datadog)
 
     ;; multiple-cursors
     (require 'multiple-cursors)

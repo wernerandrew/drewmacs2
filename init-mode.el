@@ -40,7 +40,6 @@
     ad-do-it))
 
 ;; pyxl-mode
-(load "pyxl-mode.el")
 (require 'pyxl-mode)
 (add-to-list 'auto-mode-alist '("\\.py$" . pyxl-mode))
 
@@ -178,6 +177,28 @@
              (local-set-key (kbd "M-,") 'pop-tag-mark)
              (local-set-key (kbd "M-?") 'godoc-at-point)))
 
+;; Java / Scala
+
+;; Someday...someday...
+
+;; (require 'eclim)
+;; (require 'ac-emacs-eclim-source)
+;; (ac-emacs-eclim-config)
+;; (require 'eclimd)
+;; ;; don't wait for startup
+;; (setq eclimd-wait-for-process nil)
+;; (add-hook 'java-mode-hook
+          ;; (lambda ()
+            ;; (unless eclimd-process
+              ;; (let* ((root-dir (expand-file-name
+                                ;; (vc-find-root (buffer-file-name (current-buffer))
+                                              ;; ".git")))
+                     ;; (project-dir (read-directory-name "Enter project directory: "
+                                                       ;; root-dir nil t)))
+                ;; (start-eclimd project-dir)))))
+
+
+
 ;; Shell
 (require 'tramp)
 (ansi-color-for-comint-mode-on)
@@ -189,7 +210,7 @@
 ;; little hack to avoid lockfiles
 (setq org-agenda-files
       (mapcar 'expand-file-name
-              (file-expand-wildcards "~/Dropbox/org/[A-Za-z]*.org")))
+              (file-expand-wildcards "~/Dropbox (Dropbox)/org/[A-Za-z]*.org")))
 (setq org-log-done t)
 
 ;; EWW
