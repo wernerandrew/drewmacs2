@@ -138,7 +138,7 @@
     (car (split-string str "\n")))
 
   ;; note that we need expand-file-name here
-  (let* ((fname (expand-file-name buffer-file-name (current-buffer)))
+  (let* ((fname (expand-file-name (buffer-file-name (current-buffer))))
          (gitroot (expand-file-name (vc-find-root fname ".git")))
          (relpath (replace-regexp-in-string (concat "^" gitroot) "" fname))
          (remote (first-line
