@@ -39,7 +39,6 @@
     ad-do-it))
 
 ;; pyxl-mode
-(load "pyxl-mode.el")
 (require 'pyxl-mode)
 (add-to-list 'auto-mode-alist '("\\.py$" . pyxl-mode))
 
