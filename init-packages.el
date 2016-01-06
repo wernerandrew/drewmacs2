@@ -10,7 +10,7 @@
 (defun my-init-packages (packages)
   (when packages
     (let ((this-package (car packages))
-	  (rest (cdr packages)))
+          (rest (cdr packages)))
       (add-to-list 'package-load-list (cons this-package t))
       (my-init-packages rest))))
 
@@ -31,6 +31,7 @@
     go-mode
     puppet-mode
     yaml-mode
+    lua-mode
     auto-complete ;; misc productivity
     projectile
     epc
@@ -76,7 +77,7 @@
 
     (require 'magit)
     (global-set-key (kbd "C-c g s") 'magit-status)
-    (global-set-key (kbd "C-c g b") 'magit-blame-mode)
+    (global-set-key (kbd "C-c g b") 'magit-blame)
     ;; my little github helper, here for thematic consistency
     (global-set-key (kbd "C-c g h") 'aw/get-github-link)
 
@@ -92,8 +93,8 @@
             (when (not (string-match-p "^\\." s))
               (add-to-list 'load-path (concat local-elisp s)))))))
     ;; Datadog
-    ;; (require 'datadog)
-    ;; (global-set-key (kbd "C-c d d") 'datadog)
+    (require 'datadog)
+    (global-set-key (kbd "C-c d d") 'datadog)
 
     ;; multiple-cursors
     (require 'multiple-cursors)

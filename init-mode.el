@@ -59,11 +59,15 @@
 ;; typescript
 (require 'typescript)
 (setq typescript-indent-level 2)
+(add-hook 'typescript-mode-hook
+          '(lambda ()
+             (define-key typescript-mode-map (kbd "M-.") nil)))
 (add-to-list 'auto-mode-alist '("\\.ts$" . typescript-mode))
 
 (require 'tss)
 (setq tss-popup-help-key "M-?")
-(setq tss-jump-to-definition-key "C-.")
+(setq tss-jump-to-definition-key "M-.")
+(tss-config-default)
 
 ;; ruby
 (require 'ruby-mode)
@@ -71,6 +75,10 @@
 (add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Vagrantfile$" . ruby-mode))
+
+;; php
+(require 'php-mode)
+(add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
 
 ;; cython
 (require 'cython-mode)
@@ -87,6 +95,11 @@
 (require 'markdown-mode)
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+
+;; lua
+(require 'lua-mode)
+(setq lua-indent-level 2)
+(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UTILITY CONFIG
@@ -124,6 +137,16 @@
 (ac-config-default)
 ;; Show menu more quickly after autocomplete starts
 (setq ac-auto-show-menu (* ac-delay 2))
+;; custom modes for autocomplete
+(add-to-list 'ac-modes 'typescript-mode)
+
+;; Flymake - show in minibuffer when over
+(defun aw/flymake-show-help ()
+  (when (get-char-property (point) 'flymake-overlay)
+   (let ((help (get-char-property (point) 'help-echo)))
+    (when help (popup-tip help)))))
+
+(add-hook 'post-command-hook 'aw/flymake-show-help)
 
 ;; Python mode
 ;; Don't accidentally make python buffer
