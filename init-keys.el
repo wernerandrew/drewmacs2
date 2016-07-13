@@ -7,6 +7,9 @@
 (when (boundp 'mac-command-modifier)
   (setq mac-command-modifier 'meta))
 
+(when (boundp 'mac-option-modifier)
+  (setq mac-option-modifier 'super))
+
 ;; Window splitting
 ;; Rebind these since rarely used
 (global-set-key (kbd "M-0") 'delete-window)

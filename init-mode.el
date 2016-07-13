@@ -26,6 +26,8 @@
 (add-to-list 'auto-mode-alist '("\\.ejs$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.mako$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.handlebars$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx$" . web-mode))
 ;; default to django templating for all HTML files
 (add-to-list 'web-mode-engine-file-regexps
              '("django" . "\\.html$"))
@@ -226,15 +228,64 @@
 (require 'tramp)
 (ansi-color-for-comint-mode-on)
 
+(require 'multi-term)
+(add-hook 'multi-term-hook
+          (lambda ()
+            (setq show-trailing-whitespace nil)))
+
 ;; Org-mode
 (require 'org)
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c a") 'org-agenda)
-;; little hack to avoid lockfiles
+(global-set-key (kbd "C-c c") 'org-capture)
+
+(defun my-org-path (f) (concat "~/Dropbox (Dropbox)/org/" f))
+
+;; capture / refile flow
+(let ((dbx-task-categories '("Analytics" "Reliability" "Data Layer"
+                             "Performance" "Streaming" "Management"
+                             "Uncategorized")))
+  (setq org-capture-templates
+        (mapcar (lambda (cat)
+                  (list (substring cat 0 1) (concat "Backlog: " cat) 'entry
+                        (list 'file+olp (my-org-path "backlog.org") cat)
+                        "** NEW %?\n"))
+                dbx-task-categories)))
+
 (setq org-agenda-files
       (mapcar 'expand-file-name
-              (file-expand-wildcards "~/Dropbox (Dropbox)/org/[A-Za-z]*.org")))
+              (file-expand-wildcards (my-org-path "[A-Za-z]*.org"))))
+
+(setq org-agenda-custom-commands
+      `(("d" todo "DELEGATED")
+        ("T" todo "TODO" ((org-agenda-files '(,(my-org-path "current.org")))))
+        ("b" todo "*" ((org-agenda-files '(,(my-org-path "backlog.org")))))
+        ("s" todo "SOURCED")
+        ("S" todo "SEARCHED")
+        ("M" todo "TO_EMAIL")
+        ("E" todo "EMAILED")
+        ("R" todo "TODO" ((org-agenda-files '(,(my-org-path "recruiting.org")))))
+        ("A" todo "MET|FIT|IIP|ONSITE"
+         ((org-agenda-files '(,(my-org-path "recruiting.org")))))))
+
+;; little hack to avoid lockfiles
 (setq org-log-done t)
+
+;; right now we refile only to the "current" tasklist
+;; maaaybe we add recruiting at some point
+(setq org-refile-targets
+      '(("~/Dropbox (Dropbox)/org/current.org" :level . 1)))
+
+(setq org-refile-use-outline-path t)
+(setq org-outline-path-complete-in-steps t)
+
+(defun my-org-archive-done-in-buffer ()
+  (interactive)
+  (org-map-entries
+   'org-archive-subtree
+   "/DONE|CANCELLED|ACCEPTED|REJECTED|NOT_INTERESTED|OTHER"))
+
+(global-set-key (kbd "C-c C-$") 'my-org-archive-done-in-buffer)
 
 ;; EWW
 (add-hook 'eww-mode-hook

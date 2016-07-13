@@ -34,6 +34,7 @@
     lua-mode
     auto-complete ;; misc productivity
     projectile
+    multi-term
     epc
     jedi
     ac-js2
