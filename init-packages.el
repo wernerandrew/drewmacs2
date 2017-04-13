@@ -70,7 +70,7 @@
 
     (require 'magit)
     (global-set-key (kbd "C-c g s") 'magit-status)
-    (global-set-key (kbd "C-c g b") 'magit-blame-mode)
+    (global-set-key (kbd "C-c g b") 'magit-blame)
     ;; my little github helper, here for thematic consistency
     (global-set-key (kbd "C-c g h") 'aw/get-github-link)
 
