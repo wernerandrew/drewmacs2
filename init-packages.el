@@ -24,6 +24,8 @@
     js2-mode
     coffee-mode
     tss
+    typescript-mode
+    tide
     cython-mode
     enh-ruby-mode
     haskell-mode
@@ -33,6 +35,7 @@
     yaml-mode
     lua-mode
     auto-complete ;; misc productivity
+    company
     projectile
     multi-term
     epc
@@ -44,6 +47,7 @@
     ag
     magit
     multiple-cursors
+    expand-region
     helm
     twittering-mode
     hackernews))
@@ -101,5 +105,9 @@
     (require 'multiple-cursors)
     (global-set-key (kbd "C-.") 'mc/mark-next-like-this)
     (global-set-key (kbd "C-,") 'mc/mark-previous-like-this)
-    (global-set-key (kbd "C-c C-,") 'mc/mark-all-like-this)))
+    (global-set-key (kbd "C-c C-,") 'mc/mark-all-like-this)
+
+    ;; the little expand region code
+    (require 'expand-region)
+    (global-set-key (kbd "C-=") 'er/expand-region)))
 

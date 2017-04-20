@@ -27,7 +27,7 @@
 (add-to-list 'auto-mode-alist '("\\.mako$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.handlebars$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tsx$" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.tsx$" . web-mode))
 ;; default to django templating for all HTML files
 (add-to-list 'web-mode-engine-file-regexps
              '("django" . "\\.html$"))
@@ -56,20 +56,26 @@
              ;; Don't redefine M-j - we use it to navigate
              (define-key js2-mode-map (kbd "M-j") nil)))
 ;; Extra autocompletion fun
-;; (add-hook 'js2-mode-hook 'ac-js2-mode)
 
-;; typescript
-(require 'typescript)
+(require 'typescript-mode)
 (setq typescript-indent-level 2)
 (add-hook 'typescript-mode-hook
           '(lambda ()
-             (define-key typescript-mode-map (kbd "M-.") nil)))
-(add-to-list 'auto-mode-alist '("\\.ts$" . typescript-mode))
+             (define-key typescript-mode-map (kbd "M-.") nil)
+             (eldoc-mode +1)
+             (company-mode +1)))
+(add-to-list 'auto-mode-alist '("\\.tsx$" . typescript-mode))
 
-(require 'tss)
-(setq tss-popup-help-key "M-?")
-(setq tss-jump-to-definition-key "M-.")
-(tss-config-default)
+;; ;; tide
+(require 'tide)
+(add-hook 'typescript-mode-hook #'tide-setup)
+
+;; tsx
+;; (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+;; (add-hook 'web-mode-hook
+          ;; (lambda ()
+            ;; (when (string-equal "tsx" (file-name-extension buffer-file-name))
+              ;; (setup-tide-mode))))
 
 ;; ruby
 (require 'ruby-mode)
@@ -108,6 +114,9 @@
 
 ;; projectile
 (require 'projectile)
+(setq projectile-enable-caching nil)
+;; slightly less accurate but faster files getting command
+(setq projectile-git-command "git ls-files -zc --exclude-standard")
 (projectile-global-mode)
 (setq projectile-completion-system 'ido)
 
@@ -139,8 +148,11 @@
 (ac-config-default)
 ;; Show menu more quickly after autocomplete starts
 (setq ac-auto-show-menu (* ac-delay 2))
-;; custom modes for autocomplete
-(add-to-list 'ac-modes 'typescript-mode)
+
+;; Company
+(require 'company)
+(add-to-list 'company-backends 'typescript-mode)
+(setq company-idle-delay 0.2)
 
 ;; Flymake - show in minibuffer when over
 (defun aw/flymake-show-help ()
@@ -184,6 +196,7 @@
 	     (local-set-key (kbd "M-.") 'jedi:goto-definition)
 	     (local-set-key (kbd "M-,") 'jedi:goto-definition-pop-marker)
              (local-set-key (kbd "M-/") 'jedi:get-in-function-call)))
+
 
 ;; Go
 (require 'go-autocomplete)
@@ -239,7 +252,7 @@
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
 
-(defun my-org-path (f) (concat "~/Dropbox (Dropbox)/org/" f))
+(defun my-org-path (f) (concat "~/Dropbox Dropbox/Drew Werner/org/" f))
 
 ;; capture / refile flow
 (let ((dbx-task-categories '("Analytics" "Reliability" "Data Layer"
@@ -260,7 +273,7 @@
       `(("d" todo "DELEGATED")
         ("T" todo "TODO" ((org-agenda-files '(,(my-org-path "current.org")))))
         ("b" todo "*" ((org-agenda-files '(,(my-org-path "backlog.org")))))
-        ("s" todo "SOURCED")
+        ("r" todo "SOURCED")
         ("S" todo "SEARCHED")
         ("M" todo "TO_EMAIL")
         ("E" todo "EMAILED")
@@ -274,7 +287,7 @@
 ;; right now we refile only to the "current" tasklist
 ;; maaaybe we add recruiting at some point
 (setq org-refile-targets
-      '(("~/Dropbox (Dropbox)/org/current.org" :level . 1)))
+      '(("~/Dropbox Dropbox/Drew Werner/org/current.org" :level . 1)))
 
 (setq org-refile-use-outline-path t)
 (setq org-outline-path-complete-in-steps t)
