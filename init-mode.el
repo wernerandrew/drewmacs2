@@ -41,6 +41,15 @@
         ad-do-it)
     ad-do-it))
 
+;; Certain weirdo Dropbox things get python-mode
+;; e.g., pystachio
+(add-to-list 'auto-mode-alist '("\\.pyst$" . python-mode))
+(add-to-list 'auto-mode-alist '("\\.pyst-include$" . python-mode))
+;; and bazel stuff
+(add-to-list 'auto-mode-alist '("\\(^\\|/\\)BUILD" . python-mode))
+(add-to-list 'auto-mode-alist '("\\(^\\|/\\)WORKSPACE" . python-mode))
+(add-to-list 'auto-mode-alist '("\\.bzl$" . python-mode))
+
 ;; pyxl-mode
 (require 'pyxl-mode)
 (add-to-list 'auto-mode-alist '("\\.py$" . pyxl-mode))
@@ -103,6 +112,9 @@
 (require 'markdown-mode)
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+(defun aw/markdown-mode-setup ()
+  (visual-line-mode))
+(add-hook 'markdown-mode-hook 'aw/markdown-mode-setup)
 
 ;; lua
 (require 'lua-mode)
@@ -114,9 +126,7 @@
 
 ;; projectile
 (require 'projectile)
-(setq projectile-enable-caching nil)
-;; slightly less accurate but faster files getting command
-(setq projectile-git-command "git ls-files -zc --exclude-standard")
+(setq projectile-enable-caching t)
 (projectile-global-mode)
 (setq projectile-completion-system 'ido)
 
@@ -262,7 +272,7 @@
         (mapcar (lambda (cat)
                   (list (substring cat 0 1) (concat "Backlog: " cat) 'entry
                         (list 'file+olp (my-org-path "backlog.org") cat)
-                        "** NEW %?\n"))
+                        "** TODO %?\n"))
                 dbx-task-categories)))
 
 (setq org-agenda-files

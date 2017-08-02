@@ -79,6 +79,9 @@
     (setq solarized-use-variable-pitch nil)
     (setq x-underline-at-descent-line t)
     (load-theme 'solarized-dark t)
+    ;; (require 'color-theme)
+    ;; (color-theme-initialize)
+    ;; (color-theme-hober)
 
     (require 'magit)
     (global-set-key (kbd "C-c g s") 'magit-status)
