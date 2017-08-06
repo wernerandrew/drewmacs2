@@ -38,10 +38,6 @@
         ad-do-it)
     ad-do-it))
 
-;; pyxl-mode
-(require 'pyxl-mode)
-(add-to-list 'auto-mode-alist '("\\.py$" . pyxl-mode))
-
 ;; javascript
 (require 'js2-mode)
 ;; (require 'ac-js2)
