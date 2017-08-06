@@ -30,6 +30,13 @@
              '("django" . "\\.html$"))
 (setq web-mode-engines-alist
       '(("ctemplate". "\\.handlebars$")))
+;; prefer two spaces for html indent
+(defun aw/web-mode-hook ()
+  "Hooks for Web mode."
+  (setq web-mode-markup-indent-offset 2)
+)
+(add-hook 'web-mode-hook  'aw/web-mode-hook)
+
 ;; for react
 (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
 (defadvice web-mode-highlight-part (around tweak-jsx activate)
