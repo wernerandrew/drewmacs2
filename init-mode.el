@@ -59,6 +59,10 @@
 ;; Extra autocompletion fun
 ;; (add-hook 'js2-mode-hook 'ac-js2-mode)
 
+;; json
+(require 'json-mode)
+(add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
+
 ;; ruby
 (require 'ruby-mode)
 (setq ruby-indent-level 2)
@@ -81,6 +85,10 @@
 (require 'markdown-mode)
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+(setq markdown-fontify-code-blocks-natively t)
+(defun aw/markdown-mode-setup ()
+  (visual-line-mode))
+(add-hook 'markdown-mode-hook 'aw/markdown-mode-setup)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UTILITY CONFIG

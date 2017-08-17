@@ -22,6 +22,7 @@
     less-css-mode ;; programming modes
     web-mode
     js2-mode
+    json-mode
     cython-mode
     enh-ruby-mode
     haskell-mode
