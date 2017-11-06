@@ -21,6 +21,7 @@
 
 ;; web-mode
 (require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.j2$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.mako$" . web-mode))
@@ -28,6 +29,8 @@
 ;; default to django templating for all HTML files
 (add-to-list 'web-mode-engine-file-regexps
              '("django" . "\\.html$"))
+(add-to-list 'web-mode-engine-file-regexps
+             '("django" . "\\.j2$"))
 (setq web-mode-engines-alist
       '(("ctemplate". "\\.handlebars$")))
 ;; prefer two spaces for html indent
@@ -58,6 +61,9 @@
     (define-key js2-mode-map (kbd "M-j") nil)))
 ;; Extra autocompletion fun
 ;; (add-hook 'js2-mode-hook 'ac-js2-mode)
+
+;; CSS, etc.
+(setq css-indent-offset 2)
 
 ;; json
 (require 'json-mode)
@@ -187,10 +193,14 @@
 (require 'org)
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c a") 'org-agenda)
-;; little hack to avoid lockfiles
-(setq org-agenda-files
-      (mapcar 'expand-file-name
-              (file-expand-wildcards "~/Dropbox/org/[A-Za-z]*.org")))
+
+(setq org-agenda-files '("~/Dropbox/org/torch.org"))
+
+;; Allow quick task capture
+(global-set-key (kbd "C-c c") 'org-capture)
+(setq org-capture-templates
+      '(("t" "Task" entry (file+datetree "~/Dropbox/org/torch.org")
+         "**** TODO %?\n     DEADLINE: %t\n")))
 (setq org-log-done t)
 
 ;; EWW

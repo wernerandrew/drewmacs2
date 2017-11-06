@@ -19,6 +19,7 @@
     sublime-themes
     solarized-theme
     zenburn-theme
+    blackboard-theme
     less-css-mode ;; programming modes
     web-mode
     js2-mode
@@ -68,7 +69,8 @@
  '(lambda ()
     (setq solarized-use-variable-pitch nil)
     (setq x-underline-at-descent-line t)
-    (load-theme 'solarized-dark t)
+    ;; (load-theme 'solarized-dark t)
+    (load-theme 'blackboard t)
 
     (require 'magit)
     (global-set-key (kbd "C-c g s") 'magit-status)
