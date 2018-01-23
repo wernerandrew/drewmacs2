@@ -1,11 +1,11 @@
 ;; Use a package manager
 ;; Requires emacs 24+
-;; TODO: make more backwards compatible
+;; TODO: make more backwards compati
 
 (require 'package)
 (package-initialize)
 (add-to-list 'package-archives
-	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
+	     '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 
 (defun my-init-packages (packages)
   (when packages
@@ -23,6 +23,8 @@
     less-css-mode ;; programming modes
     web-mode
     js2-mode
+    typescript-mode
+    tide
     json-mode
     cython-mode
     enh-ruby-mode
@@ -32,6 +34,8 @@
     puppet-mode
     yaml-mode
     auto-complete ;; misc productivity
+    company
+;;    company-web
     projectile
     epc
     jedi
@@ -92,6 +96,11 @@
     ;; Datadog
     (require 'datadog)
     (global-set-key (kbd "C-c d d") 'datadog)
+
+    ;; Enable Company mode everywhere
+    (require 'company)
+    (global-company-mode)
+    (require 'company-web-html)
 
     ;; multiple-cursors
     (require 'multiple-cursors)

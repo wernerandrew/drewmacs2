@@ -11,6 +11,10 @@
                                                 (auto-fill-mode)
                                                 (flyspell-mode))))
 
+;; Moving to preferring company as an autocompletion backend
+(require 'company)
+(require 'company-web-html)
+
 ;; Info mode
 (require 'info nil t)
 
@@ -36,8 +40,7 @@
 ;; prefer two spaces for html indent
 (defun aw/web-mode-hook ()
   "Hooks for Web mode."
-  (setq web-mode-markup-indent-offset 2)
-)
+  (setq web-mode-markup-indent-offset 2))
 (add-hook 'web-mode-hook  'aw/web-mode-hook)
 
 ;; for react
@@ -50,7 +53,6 @@
 
 ;; javascript
 (require 'js2-mode)
-;; (require 'ac-js2)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (setq js2-cleanup-whitespace t ;; clear whitespace on save
       js2-mirror-mode nil)     ;; but do NOT match parens.
@@ -59,8 +61,30 @@
  '(lambda ()
     ;; Don't redefine M-j - we use it to navigate
     (define-key js2-mode-map (kbd "M-j") nil)))
-;; Extra autocompletion fun
-;; (add-hook 'js2-mode-hook 'ac-js2-mode)
+
+;; typescript
+(require 'typescript-mode)
+(require 'tide)
+(add-to-list 'auto-mode-alist '("\\.ts$" . typescript-mode))
+
+;; global formatting things
+(setq typescript-indent-level 2)
+(setq typescript-expr-indent-offset 2)
+
+;; Setup tide on buffer visit
+(add-hook 'typescript-mode-hook
+          '(lambda ()
+             (tide-setup)
+             (tide-hl-identifier-mode t)
+             (setq-local company-tooltip-align-annotations t)))
+
+;; tide customizations for web-mode
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (setq web-mode-markup-indent-offset 2)
+            (when (string-equal "tsx" (file-name-extension buffer-file-name))
+              (tide-setup))))
 
 ;; CSS, etc.
 (setq css-indent-offset 2)
@@ -128,10 +152,10 @@
       (setq ag-results-pane nil))) ;; disable for now
 
 ;; Autocomplete
-(require 'auto-complete-config)
-(ac-config-default)
+;; (require 'auto-complete-config)
+;; (ac-config-default)
 ;; Show menu more quickly after autocomplete starts
-(setq ac-auto-show-menu (* ac-delay 2))
+;; (setq ac-auto-show-menu (* ac-delay 2))
 
 ;; Python mode
 ;; Don't accidentally make python buffer
@@ -149,27 +173,24 @@
     (make-local-variable 'jedi:server-args)
     (when project-base (set 'jedi:server-args (list "--sys-path" project-base)))))
 
-(require 'jedi)
-(setq jedi:setup-keys t)
-(setq jedi:complete-on-dot t)
-;; Only manually see in function tooltip
-(setq jedi:get-in-function-call-delay 10000000)
-(setq jedi:server-command
-      (list (executable-find "python")
-	    (cadr jedi:server-command)))
-(add-to-list 'ac-sources 'ac-source-jedi-direct)
-(add-hook 'python-mode-hook 'jedi:setup)
-(add-hook 'python-mode-hook 'setup-jedi-extra-args)
-;; jedi-specific keybindings
+(require 'company-jedi)
 (add-hook 'python-mode-hook
 	  '(lambda ()
+             (add-to-list 'company-backends 'company-jedi)
+             (setq jedi:setup-keys t)
+             (setq jedi:complete-on-dot t)
+             (setq jedi:get-in-function-call-delay 10000000)
+             (setq jedi:server-command
+                   (list (executable-find "python")
+                         (cadr jedi:server-command)))
+
              (local-set-key (kbd "M-?") 'jedi:show-doc)
 	     (local-set-key (kbd "M-.") 'jedi:goto-definition)
 	     (local-set-key (kbd "M-,") 'jedi:goto-definition-pop-marker)
              (local-set-key (kbd "M-/") 'jedi:get-in-function-call)))
 
 ;; Go
-(require 'go-autocomplete)
+;; (require 'go-autocomplete)
 (require 'go-eldoc)
 
 (add-hook 'go-mode-hook
