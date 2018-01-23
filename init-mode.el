@@ -194,7 +194,11 @@
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c a") 'org-agenda)
 
-(setq org-agenda-files '("~/Dropbox/org/torch.org"))
+;; todo stuff
+(setq org-agenda-files '("~/Dropbox/org/torch.org"
+                         "~/Dropbox/org/recruiting.org"))
+(setq org-todo-keywords
+      '((sequence "TODO" "|" "DONE" "CANCELLED")))
 
 ;; Allow quick task capture
 (global-set-key (kbd "C-c c") 'org-capture)
@@ -202,6 +206,9 @@
       '(("t" "Task" entry (file+datetree "~/Dropbox/org/torch.org")
          "**** TODO %?\n     DEADLINE: %t\n")))
 (setq org-log-done t)
+(add-hook 'org-mode-hook
+          '(lambda()
+             (visual-line-mode)))
 
 ;; EWW
 (add-hook 'eww-mode-hook
