@@ -13,7 +13,8 @@
 
 ;; Moving to preferring company as an autocompletion backend
 (require 'company)
-(require 'company-web-html)
+;; Commenting out - this might screw up TS completion in TSX files?
+;; (require 'company-web-html)
 
 ;; Info mode
 (require 'info nil t)
@@ -30,18 +31,24 @@
 (add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.mako$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.handlebars$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mustache$" . web-mode))
 ;; default to django templating for all HTML files
 (add-to-list 'web-mode-engine-file-regexps
              '("django" . "\\.html$"))
 (add-to-list 'web-mode-engine-file-regexps
              '("django" . "\\.j2$"))
 (setq web-mode-engines-alist
-      '(("ctemplate". "\\.handlebars$")))
+      '(("ctemplate" . "\\.handlebars$")
+        ("ctemplate" . "\\.mustache$")))
+
 ;; prefer two spaces for html indent
 (defun aw/web-mode-hook ()
   "Hooks for Web mode."
   (setq web-mode-markup-indent-offset 2))
 (add-hook 'web-mode-hook  'aw/web-mode-hook)
+
+;; No special alignment for method calls
+(add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
 
 ;; for react
 (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))

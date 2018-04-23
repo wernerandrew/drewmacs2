@@ -15,12 +15,7 @@
       (my-init-packages rest))))
 
 (defvar local-packages
-  '(color-theme ;; themes
-    sublime-themes
-    solarized-theme
-    zenburn-theme
-    blackboard-theme
-    less-css-mode ;; programming modes
+  '(less-css-mode ;; programming modes
     web-mode
     js2-mode
     typescript-mode
@@ -35,11 +30,9 @@
     yaml-mode
     auto-complete ;; misc productivity
     company
-;;    company-web
     projectile
     epc
     jedi
-    ac-js2
     go-autocomplete
     go-eldoc
     ag
@@ -67,13 +60,12 @@
 
 ;; For stuff outside MELPA that we want to live in VC
 (add-to-list 'load-path (relative-to-full-path "local-packages"))
+(add-to-list 'custom-theme-load-path (relative-to-full-path "local-themes"))
 
 (add-hook
  'after-init-hook
  '(lambda ()
-    (setq solarized-use-variable-pitch nil)
     (setq x-underline-at-descent-line t)
-    ;; (load-theme 'solarized-dark t)
     (load-theme 'blackboard t)
 
     (require 'magit)
@@ -100,6 +92,7 @@
     ;; Enable Company mode everywhere
     (require 'company)
     (global-company-mode)
+    (setq company-idle-delay 0.1)
     (require 'company-web-html)
 
     ;; multiple-cursors
