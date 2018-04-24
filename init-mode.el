@@ -189,7 +189,10 @@
              (setq jedi:get-in-function-call-delay 10000000)
              (setq jedi:server-command
                    (list (executable-find "python")
-                         (cadr jedi:server-command)))
+                         (let ((basedir "/Users/werner/.emacs.d/elpa/"))
+                           (concat basedir
+                                   (car (file-name-all-completions "jedi-core-" basedir))
+                                   "jediepcserver.py"))))
 
              (local-set-key (kbd "M-?") 'jedi:show-doc)
 	     (local-set-key (kbd "M-.") 'jedi:goto-definition)
