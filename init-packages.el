@@ -34,7 +34,6 @@
     epc
     jedi
     elpy
-    ;; company-jedi
     company-web
     go-autocomplete
     go-eldoc
@@ -88,6 +87,7 @@
           (dolist (s subdirs)
             (when (not (string-match-p "^\\." s))
               (add-to-list 'load-path (concat local-elisp s)))))))
+
     ;; Datadog
     (require 'datadog)
     (global-set-key (kbd "C-c d d") 'datadog)

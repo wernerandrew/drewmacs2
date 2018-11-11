@@ -158,32 +158,15 @@
       (setq ag-reuse-buffers t)
       (setq ag-results-pane nil))) ;; disable for now
 
-;; Autocomplete
-;; (require 'auto-complete-config)
-;; (ac-config-default)
-;; Show menu more quickly after autocomplete starts
-;; (setq ac-auto-show-menu (* ac-delay 2))
-
 ;; Python mode
 ;; Don't accidentally make python buffer
 (add-hook 'python-mode-hook
 	  '(lambda () (local-set-key (kbd "C-c C-p") nil)))
 
-;; Jedi
-;; This is a bit of a doozy
-;; Requires the aw/guess-best-root-for-buffer defined in
-;; custom-functions.el
-
-;; (defun setup-jedi-extra-args ()
-;;  (let ((project-base (aw/guess-best-root-for-buffer
-;;                       (current-buffer) ".git" "__init__.py")))
-;;    (make-local-variable 'jedi:server-args)
-;;    (when project-base (set 'jedi:server-args (list "--sys-path" project-base)))))
-
-
-;; (setq aw/project-python "python")
+;; Elpy / Jedi config
 
 (require 'jedi)
+;; Some custom keybindings
 (add-hook 'python-mode-hook
           '(lambda ()
              (setq jedi:setup-keys t)
