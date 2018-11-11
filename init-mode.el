@@ -174,30 +174,27 @@
 ;; Requires the aw/guess-best-root-for-buffer defined in
 ;; custom-functions.el
 
-(defun setup-jedi-extra-args ()
-  (let ((project-base (aw/guess-best-root-for-buffer
-                       (current-buffer) ".git" "__init__.py")))
-    (make-local-variable 'jedi:server-args)
-    (when project-base (set 'jedi:server-args (list "--sys-path" project-base)))))
+;; (defun setup-jedi-extra-args ()
+;;  (let ((project-base (aw/guess-best-root-for-buffer
+;;                       (current-buffer) ".git" "__init__.py")))
+;;    (make-local-variable 'jedi:server-args)
+;;    (when project-base (set 'jedi:server-args (list "--sys-path" project-base)))))
 
-(require 'company-jedi)
+
+;; (setq aw/project-python "python")
+
+(require 'jedi)
 (add-hook 'python-mode-hook
-	  '(lambda ()
-             (add-to-list 'company-backends 'company-jedi)
+          '(lambda ()
              (setq jedi:setup-keys t)
              (setq jedi:complete-on-dot t)
              (setq jedi:get-in-function-call-delay 10000000)
-             (setq jedi:server-command
-                   (list (executable-find "python")
-                         (let ((basedir "/Users/werner/.emacs.d/elpa/"))
-                           (concat basedir
-                                   (car (file-name-all-completions "jedi-core-" basedir))
-                                   "jediepcserver.py"))))
-
              (local-set-key (kbd "M-?") 'jedi:show-doc)
-	     (local-set-key (kbd "M-.") 'jedi:goto-definition)
-	     (local-set-key (kbd "M-,") 'jedi:goto-definition-pop-marker)
+             (local-set-key (kbd "M-.") 'jedi:goto-definition)
+             (local-set-key (kbd "M-,") 'jedi:goto-definition-pop-marker)
              (local-set-key (kbd "M-/") 'jedi:get-in-function-call)))
+
+(elpy-enable)
 
 ;; Go
 ;; (require 'go-autocomplete)

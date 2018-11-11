@@ -33,6 +33,9 @@
     projectile
     epc
     jedi
+    elpy
+    ;; company-jedi
+    company-web
     go-autocomplete
     go-eldoc
     ag
