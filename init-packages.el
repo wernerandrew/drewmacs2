@@ -1,11 +1,18 @@
 ;; Use a package manager
 ;; Requires emacs 24+
-;; TODO: make more backwards compati
 
 (require 'package)
 (package-initialize)
-(add-to-list 'package-archives
-	     '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+
+(setq package-archives
+      '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
+        ("melpa-stable" . "https://stable.melpa.org/packages/")
+        ("melpa" . "https://melpa.org/packages/")))
+
+(setq package-archive-priorities
+      '(("melpa-stable" . 10)
+        ("gnu-elpa" . 5)
+        ("melpa" . 0)))
 
 (defun my-init-packages (packages)
   (when packages
@@ -15,7 +22,8 @@
       (my-init-packages rest))))
 
 (defvar local-packages
-  '(less-css-mode ;; programming modes
+  '(use-package ;; this is what we're gonna do going forward
+    less-css-mode ;; programming modes
     web-mode
     js2-mode
     typescript-mode
@@ -38,7 +46,6 @@
     go-autocomplete
     go-eldoc
     ag
-    magit
     multiple-cursors
     expand-region
     helm
@@ -63,6 +70,13 @@
 ;; For stuff outside MELPA that we want to live in VC
 (add-to-list 'load-path (relative-to-full-path "local-packages"))
 (add-to-list 'custom-theme-load-path (relative-to-full-path "local-themes"))
+
+;; Safe to start doing use-package here, I think
+(eval-when-compile
+  (require 'use-package))
+
+(use-package magit :ensure t :pin manual)
+(use-package forge :ensure t :pin manual)
 
 (add-hook
  'after-init-hook
