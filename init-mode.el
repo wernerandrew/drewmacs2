@@ -12,9 +12,8 @@
                                                 (flyspell-mode))))
 
 ;; Moving to preferring company as an autocompletion backend
-(require 'company)
-;; Commenting out - this might screw up TS completion in TSX files?
-;; (require 'company-web-html)
+;; Note that the company initialization happends in the after-init-hook
+;; Defined in init-packages.el
 
 ;; Info mode
 (require 'info nil t)
@@ -180,9 +179,9 @@
 (elpy-enable)
 
 ;; Go
-;; (require 'go-autocomplete)
 (require 'go-eldoc)
 
+(add-hook 'completion-at-point-functions 'go-complete-at-point)
 (add-hook 'go-mode-hook
           '(lambda ()
              ;; eldoc stuff

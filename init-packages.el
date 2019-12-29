@@ -43,7 +43,7 @@
     jedi
     elpy
     company-web
-    go-autocomplete
+    company-go
     go-eldoc
     ag
     multiple-cursors
@@ -110,7 +110,8 @@
     (require 'company)
     (global-company-mode)
     (setq company-idle-delay 0.1)
-    (require 'company-web-html)
+    (add-to-list 'company-backends 'company-go)
+
 
     ;; multiple-cursors
     (require 'multiple-cursors)
