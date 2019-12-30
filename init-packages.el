@@ -24,6 +24,7 @@
 (defvar local-packages
   '(use-package ;; this is what we're gonna do going forward
     less-css-mode ;; programming modes
+    magit  ;; FIXME: move to use-package
     web-mode
     js2-mode
     typescript-mode
@@ -75,8 +76,11 @@
 (eval-when-compile
   (require 'use-package))
 
-(use-package magit :ensure t :pin manual)
-(use-package forge :ensure t :pin manual)
+;; (use-package magit :ensure t :pin manual)
+;; (use-package forge :ensure t :pin manual)
+
+(use-package prettier-js :ensure t)
+(use-package add-node-modules-path :ensure t)
 
 (add-hook
  'after-init-hook

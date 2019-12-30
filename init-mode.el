@@ -40,11 +40,21 @@
       '(("ctemplate" . "\\.handlebars$")
         ("ctemplate" . "\\.mustache$")))
 
-;; prefer two spaces for html indent
+;; prefer two spaces for html / js / css indent
 (defun aw/web-mode-hook ()
   "Hooks for Web mode."
-  (setq web-mode-markup-indent-offset 2))
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2))
 (add-hook 'web-mode-hook  'aw/web-mode-hook)
+(add-hook 'web-mode-hook 'add-node-modules-path)
+(add-hook
+ 'web-mode-hook
+ '(lambda ()
+    (unless (and (boundp 'web-mode-minor-engine)
+                 ;; Exclude django from prettier
+                 (string-equal web-mode-minor-engine "django"))
+      (prettier-js-mode))))
 
 ;; No special alignment for method calls
 (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
@@ -60,8 +70,9 @@
 ;; javascript
 (require 'js2-mode)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-(setq js2-cleanup-whitespace t ;; clear whitespace on save
-      js2-mirror-mode nil)     ;; but do NOT match parens.
+(setq js2-cleanup-whitespace t  ;; clear whitespace on save
+      js2-mirror-mode nil       ;; but do NOT match parens.
+      js2-basic-offset 2)       ;; 2 space offset
 (add-hook
  'js2-mode-hook
  '(lambda ()
@@ -72,10 +83,12 @@
 (require 'typescript-mode)
 (require 'tide)
 (add-to-list 'auto-mode-alist '("\\.ts$" . typescript-mode))
+(add-hook 'typescript-mode-hook 'add-node-modules-path)
+(add-hook 'typescript-mode-hook 'prettier-js-mode)
 
 ;; global formatting things
 (setq typescript-indent-level 2)
-(setq typescript-expr-indent-offset 2)
+(setq typescript-expr-indent-offset 0)
 
 ;; Setup tide on buffer visit
 (add-hook 'typescript-mode-hook
@@ -133,6 +146,7 @@
 (require 'projectile)
 (projectile-global-mode)
 (setq projectile-completion-system 'ido)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 ;; Display ido results vertically, rather than horizontally
 (setq ido-decorations
@@ -160,23 +174,31 @@
 ;; Python mode
 ;; Don't accidentally make python buffer
 (add-hook 'python-mode-hook
-	  '(lambda () (local-set-key (kbd "C-c C-p") nil)))
+	  '(lambda ()
+             (local-set-key (kbd "C-c C-p") nil)))
 
 ;; Elpy / Jedi config
 
-(require 'jedi)
+;; (require 'jedi)
 ;; Some custom keybindings
-(add-hook 'python-mode-hook
-          '(lambda ()
-             (setq jedi:setup-keys t)
-             (setq jedi:complete-on-dot t)
-             (setq jedi:get-in-function-call-delay 10000000)
-             (local-set-key (kbd "M-?") 'jedi:show-doc)
-             (local-set-key (kbd "M-.") 'jedi:goto-definition)
-             (local-set-key (kbd "M-,") 'jedi:goto-definition-pop-marker)
-             (local-set-key (kbd "M-/") 'jedi:get-in-function-call)))
+;; (add-hook 'python-mode-hook
+;;           '(lambda ()
+;;              (setq jedi:setup-keys t)
+;;              (setq jedi:complete-on-dot t)
+;;              (setq jedi:get-in-function-call-delay 10000000)
+;;              (local-set-key (kbd "M-?") 'jedi:show-doc)
+;;              (local-set-key (kbd "M-.") 'jedi:goto-definition)
+;;              (local-set-key (kbd "M-,") 'jedi:goto-definition-pop-marker)
+;;              (local-set-key (kbd "M-/") 'jedi:get-in-function-call)))
 
 (elpy-enable)
+
+;; (add-hook 'python-mode-hook
+;;           '(lambda ()
+;;              ;; Re-enable custom keyboard shortcuts that I do not want to
+;;              ;; override by elpy. Has to come after (elpy-enable)
+;;              (define-key elpy-mode-map (kbd "M-up") nil)
+;;              (define-key elpy-mode-map (kbd "M-down") nil)))
 
 ;; Go
 (require 'go-eldoc)
@@ -205,15 +227,15 @@
 (global-set-key (kbd "C-c a") 'org-agenda)
 
 ;; todo stuff
-(setq org-agenda-files '("~/Dropbox/org/torch.org"
-                         "~/Dropbox/org/recruiting.org"))
+(setq org-agenda-files '("~/Dropbox (Personal)/org/torch.org"
+                         "~/Dropbox (Personal)/org/recruiting.org"))
 (setq org-todo-keywords
       '((sequence "TODO" "|" "DONE" "CANCELLED")))
 
 ;; Allow quick task capture
 (global-set-key (kbd "C-c c") 'org-capture)
 (setq org-capture-templates
-      '(("t" "Task" entry (file+datetree "~/Dropbox/org/torch.org")
+      '(("t" "Task" entry (file+datetree "~/Dropbox (Personal)/org/torch.org")
          "**** TODO %?\n     DEADLINE: %t\n")))
 (setq org-log-done t)
 (add-hook 'org-mode-hook
