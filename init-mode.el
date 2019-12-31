@@ -15,6 +15,9 @@
 ;; Note that the company initialization happends in the after-init-hook
 ;; Defined in init-packages.el
 
+;; LSP mode for new fancy autocompletion (outside of web-mode)
+(require 'lsp-mode)
+
 ;; Info mode
 (require 'info nil t)
 
@@ -177,28 +180,15 @@
 	  '(lambda ()
              (local-set-key (kbd "C-c C-p") nil)))
 
-;; Elpy / Jedi config
 
-;; (require 'jedi)
-;; Some custom keybindings
-;; (add-hook 'python-mode-hook
-;;           '(lambda ()
-;;              (setq jedi:setup-keys t)
-;;              (setq jedi:complete-on-dot t)
-;;              (setq jedi:get-in-function-call-delay 10000000)
-;;              (local-set-key (kbd "M-?") 'jedi:show-doc)
-;;              (local-set-key (kbd "M-.") 'jedi:goto-definition)
-;;              (local-set-key (kbd "M-,") 'jedi:goto-definition-pop-marker)
-;;              (local-set-key (kbd "M-/") 'jedi:get-in-function-call)))
+;; Default virtualenv; can be settable with .dir-locals.el
+;; Doesn't work great for switching between projects
+(setq aw/python-development-venv "/Users/werner/src/torchweb/venv-dev")
+(pyvenv-activate aw/python-development-venv)
 
-(elpy-enable)
-
-;; (add-hook 'python-mode-hook
-;;           '(lambda ()
-;;              ;; Re-enable custom keyboard shortcuts that I do not want to
-;;              ;; override by elpy. Has to come after (elpy-enable)
-;;              (define-key elpy-mode-map (kbd "M-up") nil)
-;;              (define-key elpy-mode-map (kbd "M-down") nil)))
+;; Python completion library
+(require 'lsp-python-ms)
+(add-hook 'python-mode-hook #'lsp)
 
 ;; Go
 (require 'go-eldoc)

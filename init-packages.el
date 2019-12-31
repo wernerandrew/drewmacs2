@@ -10,9 +10,9 @@
         ("melpa" . "https://melpa.org/packages/")))
 
 (setq package-archive-priorities
-      '(("melpa-stable" . 10)
-        ("gnu-elpa" . 5)
-        ("melpa" . 0)))
+      '(("melpa" . 10)
+        ("melpa-stable" . 5)
+        ("gnu-elpa" . 0)))
 
 (defun my-init-packages (packages)
   (when packages
@@ -43,6 +43,9 @@
     epc
     jedi
     elpy
+    lsp-mode
+    lsp-python-ms
+    company-lsp
     company-web
     company-go
     go-eldoc
@@ -116,6 +119,14 @@
     (setq company-idle-delay 0.1)
     (add-to-list 'company-backends 'company-go)
 
+    ;; Company LSP and config
+    (push 'company-lsp company-backends)
+    (setq company-lsp-match-candidate-predicate
+          #'company-lsp-match-candidate-flex)
+    (setq company-lsp-async t)
+    (setq company-lsp-cache-candidates nil)
+
+    ;; Company mode shouldn't conflict with LSP sorting
 
     ;; multiple-cursors
     (require 'multiple-cursors)
