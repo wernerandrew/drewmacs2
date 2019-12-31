@@ -177,9 +177,8 @@
 ;; Python mode
 ;; Don't accidentally make python buffer
 (add-hook 'python-mode-hook
-	  '(lambda ()
+          '(lambda ()
              (local-set-key (kbd "C-c C-p") nil)))
-
 
 ;; Default virtualenv; can be settable with .dir-locals.el
 ;; Doesn't work great for switching between projects
@@ -193,7 +192,6 @@
 ;; Go
 (require 'go-eldoc)
 
-(add-hook 'completion-at-point-functions 'go-complete-at-point)
 (add-hook 'go-mode-hook
           '(lambda ()
              ;; eldoc stuff
