@@ -55,3 +55,6 @@
 (global-set-key (kbd "M-t") 'replace-regexp)
 ;; Don't accidentally suspend
 (global-set-key (kbd "C-z") nil)
+
+;; Misc useful
+(global-set-key (kbd "C-c o") 'aw/open-buffer-dir)

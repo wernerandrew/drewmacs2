@@ -54,12 +54,12 @@
 
 ;; We will bind these functions to keys
 (defun select-next-window ()
-  "Switch to the next window"
+  "Switch to the next window."
   (interactive)
   (select-window (next-window)))
 
 (defun select-previous-window ()
-  "Switch to the previous window"
+  "Switch to the previous window."
   (interactive)
   (select-window (previous-window)))
 
@@ -160,3 +160,9 @@
       (kill-new src-link)
       (when current-prefix-arg
           (shell-command (concat "open " src-link))))))
+
+;; Opens the directory containing the current buffer
+(defun aw/open-buffer-dir ()
+  "Opens the directory of the current buffer in the Finder."
+  (interactive)
+  (shell-command (concat "open " default-directory)))
