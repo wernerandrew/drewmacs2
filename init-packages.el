@@ -42,9 +42,6 @@
     projectile
     lsp-mode
     lsp-python-ms
-    company-lsp
-    company-web
-    company-go
     go-eldoc
     flycheck
     ag
@@ -77,11 +74,10 @@
 (eval-when-compile
   (require 'use-package))
 
-;; (use-package magit :ensure t :pin manual)
-;; (use-package forge :ensure t :pin manual)
-
 (use-package prettier-js :ensure t)
 (use-package add-node-modules-path :ensure t)
+
+(use-package lsp-pyright :ensure t)
 
 (add-hook
  'after-init-hook
@@ -115,13 +111,6 @@
     (require 'company)
     (global-company-mode)
     (setq company-idle-delay 0.1)
-
-    ;; Company LSP and config
-    (push 'company-lsp company-backends)
-    (setq company-lsp-match-candidate-predicate
-          #'company-lsp-match-candidate-flex)
-    (setq company-lsp-async t)
-    (setq company-lsp-cache-candidates nil)
 
     ;; Global flycheck
     (global-flycheck-mode)

@@ -52,7 +52,7 @@
  ;; keep the window focused on the messages during compilation
  compilation-scroll-output t
  ;; blink the screen instead of beeping
- ;; visible-bell t
+ visible-bell t
  ;; Show all lines, even if the window is not as large as the frame
  truncate-partial-width-windows nil
  ;; Do not keep tracks of the autosaved files

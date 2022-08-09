@@ -18,6 +18,9 @@
 ;; LSP mode for new fancy autocompletion (outside of web-mode)
 (require 'lsp-mode)
 
+;; 1MB process read payload for faster server comms
+(setq read-process-output-max (* 1024 1024))
+
 ;; Info mode
 (require 'info nil t)
 
@@ -186,7 +189,8 @@
 (pyvenv-activate aw/python-development-venv)
 
 ;; Python completion library
-(require 'lsp-python-ms)
+(require 'lsp-pyright)
+(setq lsp-pyright-venv-path aw/python-development-venv)
 (add-hook 'python-mode-hook #'lsp)
 
 ;; Go
