@@ -37,6 +37,7 @@
     go-mode
     puppet-mode
     yaml-mode
+    terraform-mode
     auto-complete ;; misc productivity
     company
     projectile
@@ -79,6 +80,8 @@
 
 (use-package lsp-pyright :ensure t)
 
+(use-package terraform-mode :ensure t)
+
 (add-hook
  'after-init-hook
  '(lambda ()
@@ -102,6 +105,10 @@
           (dolist (s subdirs)
             (when (not (string-match-p "^\\." s))
               (add-to-list 'load-path (concat local-elisp s)))))))
+
+    ;; General ag config
+    ;; Specific to Torch but OK generally
+    (setq-default ag-ignore-list '("__testdata__"))
 
     ;; Datadog
     (require 'datadog)
