@@ -54,13 +54,15 @@
   (setq web-mode-code-indent-offset 2))
 (add-hook 'web-mode-hook  'aw/web-mode-hook)
 (add-hook 'web-mode-hook 'add-node-modules-path)
-(add-hook
- 'web-mode-hook
- '(lambda ()
-    (unless (and (boundp 'web-mode-minor-engine)
-                 ;; Exclude django from prettier
-                 (string-equal web-mode-minor-engine "django"))
-      (prettier-js-mode))))
+;; (add-hook
+ ;; 'web-mode-hook
+ ;; '(lambda ()
+    ;; (unless (and (boundp 'web-mode-minor-engine)
+                 ;; ;; Exclude django from prettier
+                 ;; (string-equal web-mode-minor-engine "django"))
+      ;; (prettier-js-mode)))
+ ;; )
+
 
 ;; No special alignment for method calls
 (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
@@ -148,6 +150,7 @@
 ;; terraform
 (require 'terraform-mode)
 (add-to-list 'auto-mode-alist '("\\.tf$" . terraform-mode))
+(add-hook 'terraform-mode-hook 'terraform-format-on-save-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UTILITY CONFIG
