@@ -1,4 +1,5 @@
 ;; emacs init file for drew, with thanks to gleit.
+(package-initialize)
 
 ;; for emacsclient support
 (server-start)

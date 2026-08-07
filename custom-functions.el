@@ -161,6 +161,40 @@
       (when current-prefix-arg
           (shell-command (concat "open " src-link))))))
 
+;; Helper for Bitbucket, courtesy Gemini
+(defun aw/get-bitbucket-link ()
+  (interactive)
+  (let* ((fname (expand-file-name (buffer-file-name (current-buffer))))
+         (gitroot (expand-file-name (vc-find-root fname ".git")))
+         (relpath (string-remove-prefix gitroot fname))
+         (remote (car (split-string
+                       (shell-command-to-string
+                        (concat "cd " (shell-quote-argument gitroot)
+                                " && git remote get-url origin"))
+                       "\n")))
+         (branch (car (split-string
+                       (shell-command-to-string
+                        (concat "cd " (shell-quote-argument gitroot)
+                                " && git rev-parse --abbrev-ref HEAD"))
+                       "\n")))
+         ;; Clean SSH/HTTPS URLs into workspace/repo-name
+         (repo (replace-regexp-in-string
+                "\\.git$" ""
+                (replace-regexp-in-string
+                 "^.*bitbucket\\.org[:/]" "" remote)))
+         (line-fragment (if (region-active-p)
+                            (format "#lines-%d:%d"
+                                    (line-number-at-pos (region-beginning))
+                                    (line-number-at-pos (region-end)))
+                          (format "#lines-%d" (line-number-at-pos (point)))))
+         (src-link (format "https://bitbucket.org/%s/src/%s/%s%s"
+                           repo branch relpath line-fragment)))
+
+    (kill-new src-link)
+    (message "Copied Bitbucket link: %s" src-link)
+    (when current-prefix-arg
+      (shell-command (concat "open " (shell-quote-argument src-link))))))
+
 ;; Opens the directory containing the current buffer
 (defun aw/open-buffer-dir ()
   "Opens the directory of the current buffer in the Finder."

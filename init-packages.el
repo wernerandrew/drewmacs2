@@ -2,7 +2,6 @@
 ;; Requires emacs 24+
 
 (require 'package)
-(package-initialize)
 
 (setq package-archives
       '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
@@ -25,6 +24,7 @@
   '(use-package ;; this is what we're gonna do going forward
     less-css-mode ;; programming modes
     magit  ;; FIXME: move to use-package
+    pyvenv
     web-mode
     js2-mode
     typescript-mode
@@ -49,7 +49,6 @@
     multiple-cursors
     expand-region
     helm
-    twittering-mode
     hackernews))
 
 (defun uninstalled-packages (packages)
@@ -94,6 +93,7 @@
     (global-set-key (kbd "C-c g l") 'magit-log-buffer-file)
     ;; my little github helper, here for thematic consistency
     (global-set-key (kbd "C-c g h") 'aw/get-github-link)
+    (global-set-key (kbd "C-c b b") 'aw/get-bitbucket-link)
 
     ;; Mode specific init
     (load local-mode-init-file-path)
@@ -112,8 +112,10 @@
     (setq-default ag-ignore-list '("__testdata__"))
 
     ;; Datadog
-    (require 'datadog)
-    (global-set-key (kbd "C-c d d") 'datadog)
+    ;; Uncomment the below if you have downloaded the Datadog package
+    ;; (if it even still works...)
+    ;; (require 'datadog)
+    ;; (global-set-key (kbd "C-c d d") 'datadog)
 
     ;; Enable Company mode everywhere
     (require 'company)

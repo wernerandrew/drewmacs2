@@ -31,6 +31,7 @@
 
 ;; web-mode
 (require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.j2$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
@@ -63,6 +64,11 @@
       ;; (prettier-js-mode)))
  ;; )
 
+;; Vue support via web-mode + lsp-mode
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "vue" (file-name-extension (or buffer-file-name "")))
+              (lsp-deferred))))
 
 ;; No special alignment for method calls
 (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
@@ -155,10 +161,26 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UTILITY CONFIG
 
+;; For fido use, ensure vertical display
+(fido-vertical-mode +1)
+;; use my standard keyboard shortcuts for next / previous match
+(with-eval-after-load 'icomplete
+  (keymap-set icomplete-minibuffer-map "C-n" #'icomplete-forward-completions)
+  (keymap-set icomplete-minibuffer-map "C-p" #'icomplete-backward-completions)
+  (keymap-set icomplete-minibuffer-map "M-k" #'icomplete-forward-completions)
+  (keymap-set icomplete-minibuffer-map "M-i" #'icomplete-backward-completions))
+
+;; Make the selected choice pop like active selected text
+(set-face-attribute 'icomplete-selected-match nil
+                    :inherit 'region)
+
+;; Make the common typed characters pop like search highlights
+(set-face-attribute 'completions-common-part nil
+                    :inherit 'isearch)
+
 ;; projectile
 (require 'projectile)
-(projectile-global-mode)
-(setq projectile-completion-system 'ido)
+(projectile-mode +1)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 ;; Display ido results vertically, rather than horizontally
@@ -192,13 +214,25 @@
 
 ;; Default virtualenv; can be settable with .dir-locals.el
 ;; Doesn't work great for switching between projects
-(setq aw/python-development-venv "/Users/werner/src/torchweb/venv-dev")
-(pyvenv-activate aw/python-development-venv)
 
 ;; Python completion library
+;; (setq lsp-pyright-venv-path aw/python-development-venv)
+(require 'pyvenv nil t)
+(defun aw/auto-activate-venv ()
+  "Automatically activate a virtual environment found in project root."
+  (when-let ((project-root (executable-find "python")))
+    (let ((venv-dir (cond
+                     ((file-directory-p (expand-file-name ".venv" (projectile-project-root)))
+                      (expand-file-name ".venv" (projectile-project-root)))
+                     ((file-directory-p (expand-file-name "venv" (projectile-project-root)))
+                      (expand-file-name "venv" (projectile-project-root))))))
+      (when venv-dir
+        (pyvenv-activate venv-dir)))))
+
+(add-hook 'python-mode-hook #'aw/auto-activate-venv)
+
 (require 'lsp-pyright)
-(setq lsp-pyright-venv-path aw/python-development-venv)
-(add-hook 'python-mode-hook #'lsp)
+(add-hook 'python-mode-hook #'lsp-deferred)
 
 ;; Go
 (require 'go-eldoc)
@@ -240,17 +274,3 @@
 (add-hook 'org-mode-hook
           '(lambda()
              (visual-line-mode)))
-
-;; EWW
-(add-hook 'eww-mode-hook
-          '(lambda ()
-             (setq show-trailing-whitespace nil)))
-
-;; Twittering
-(require 'twittering-mode)
-(add-hook 'twittering-mode-hook
-          (lambda ()
-            (setq show-trailing-whitespace nil)))
-
-;; Hacker News
-(require 'hackernews)
