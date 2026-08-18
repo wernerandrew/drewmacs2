@@ -150,7 +150,13 @@
                    (concat "cd " gitroot " && git rev-parse --abbrev-ref HEAD")))))
 
     (let ((src-link (concat "https://github.com/"
-                            (strip-regexp-multi '("^.*github.com[/:]*" "\\.git$") remote)
+                            (strip-regexp-multi
+                             '(
+                               "^.*github.com[/:]*"
+                               "git@.*:"
+                               "\\.git$"
+                               )
+                             remote)
                             "/blob/" branch "/" relpath
                             (if (region-active-p)
                                 (format "#L%d-L%d"
